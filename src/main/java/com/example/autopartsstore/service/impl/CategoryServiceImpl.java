@@ -22,8 +22,12 @@ public class CategoryServiceImpl implements CategoryService {
     }
 
     @Override
-    public Optional<Category> findById(int id) {
-        return categoryRepository.findById(id);
+    public Category findById(int id) {
+        Optional<Category> byId = categoryRepository.findById(id);
+        if (byId.isEmpty()) {
+            return null;
+        }
+        return byId.get();
     }
 
     @Override
@@ -40,6 +44,7 @@ public class CategoryServiceImpl implements CategoryService {
 
     @Override
     public Category save(Category category) {
+
         return categoryRepository.save(category);
     }
 

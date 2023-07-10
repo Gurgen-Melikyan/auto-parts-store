@@ -29,13 +29,17 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public Optional<Product> findById(int id) {
-//        Optional<Product> byId = productRepository.findById(id);
-//        if (byId.isEmpty()) {
-//            return null;
-//        }
-//        return byId;
-        return productRepository.findById(id);
+    public Product findById(int id) {
+        Optional<Product> byId = productRepository.findById(id);
+        if (byId.isEmpty()) {
+            return null;
+        }
+        return byId.get();
+    }
+
+    @Override
+    public void save(Product product) {
+        productRepository.save(product);
     }
 
     @Override
@@ -55,9 +59,40 @@ public class ProductServiceImpl implements ProductService {
         productRepository.save(product);
     }
 
+    @Override
+    public void updateProduct(int id, User currentUser, MultipartFile multipartFile, Product product) throws IOException {
+        Optional<Product> byId = productRepository.findById(id);
+        if (byId.isEmpty()) {
+            return;
+        }
+        Product productFromDb = byId.get();
+        if (productFromDb.getUser().getId() != currentUser.getId()){
+            return;
+        }
+        if (multipartFile != null && !multipartFile.isEmpty()) {
+            String fileName = System.nanoTime() + "_" + multipartFile.getOriginalFilename();
+            File file = new File(imageUploadPath + fileName);
+            multipartFile.transferTo(file);
+            productFromDb.setImgName(fileName);
+        }
+
+        product.setId(id);
+        productFromDb.setCategory(product.getCategory());
+        product.setUser(currentUser);
+        if (product.getTitle() != null) {
+            productFromDb.setTitle(product.getTitle());
+        }
+        productFromDb.setPrice(product.getPrice());
+        productRepository.save(productFromDb);
+    }
+
 
     @Override
     public void deleteById(int id) {
+        Optional<Product> byId = productRepository.findById(id);
+        if (byId.isEmpty()) {
+            return;
+        }
         productRepository.deleteById(id);
     }
 }

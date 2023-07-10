@@ -58,11 +58,25 @@ public class CategoryController {
         return "redirect:/categories";
     }
 
-
-
     @GetMapping("/remove")
     public String removeCategory(@RequestParam("id") int id) {
         categoryService.deleteById(id);
+        return "redirect:/categories";
+    }
+
+    @GetMapping("/edit")
+    public String editPage(@RequestParam("id") int id, ModelMap modelMap) {
+        modelMap.addAttribute("category", categoryService.findById(id));
+        return "updateCategory";
+    }
+
+    @PostMapping("/edit")
+    public String updateCategory(@RequestParam("id") int id, @ModelAttribute Category category) {
+        if (category.getName() == null){
+            return "updateCategory";
+        }
+        category.setId(id);
+        categoryService.save(category);
         return "redirect:/categories";
     }
 }

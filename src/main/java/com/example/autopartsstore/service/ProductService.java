@@ -12,8 +12,14 @@ import java.util.Optional;
 
 public interface ProductService {
     List<Product> findAllProducts();
-    Optional<Product> findById(int id);
+
+    Product findById(int id);
+
+    void save(Product product);
+
     Page<Product> findAll(Pageable pageable);
+
     void addProduct(User currentUser, MultipartFile multipartFile, Product product) throws IOException;
+    void updateProduct(int id,User currentUser, MultipartFile multipartFile, Product product) throws IOException;
     void deleteById(int id);
 }

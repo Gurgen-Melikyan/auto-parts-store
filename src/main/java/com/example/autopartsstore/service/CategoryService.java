@@ -9,7 +9,7 @@ import java.util.Optional;
 
 public interface CategoryService {
     List<Category> findAllCategories();
-    Optional<Category> findById(int id);
+    Category findById(int id);
     Page<Category> findAll(Pageable pageable);
     void addCategory (String name);
     Category save(Category category);

@@ -17,7 +17,6 @@ import java.util.Optional;
 @Service
 @RequiredArgsConstructor
 public class CartServiceImpl implements CartService {
-    private final ProductService productService;
     private final CartRepository cartRepository;
     private final ProductRepository productRepository;
 
@@ -64,5 +63,10 @@ public class CartServiceImpl implements CartService {
     public void emptyCart(int cartId) {
         Cart cart = cartRepository.findById(cartId).orElseThrow(() -> new RuntimeException("Cart not found"));
         cartRepository.delete(cart);
+    }
+
+    @Override
+    public void removeById(int id) {
+        cartRepository.deleteById(id);
     }
 }

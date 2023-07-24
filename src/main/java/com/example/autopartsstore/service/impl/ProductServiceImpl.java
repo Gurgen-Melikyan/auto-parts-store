@@ -38,6 +38,12 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
+    public Product findByUserId(int id) {
+        return productRepository.findByUser_Id(id);
+
+    }
+
+    @Override
     public void save(Product product) {
         productRepository.save(product);
     }
@@ -66,7 +72,7 @@ public class ProductServiceImpl implements ProductService {
             return;
         }
         Product productFromDb = byId.get();
-        if (productFromDb.getUser().getId() != currentUser.getId()){
+        if (productFromDb.getUser().getId() != currentUser.getId()) {
             return;
         }
         if (multipartFile != null && !multipartFile.isEmpty()) {

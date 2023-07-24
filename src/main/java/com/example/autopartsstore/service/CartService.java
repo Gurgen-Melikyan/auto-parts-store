@@ -18,4 +18,5 @@ public interface CartService {
 
     void emptyCart(int cartId);
 
+    void removeById(int id);
 }

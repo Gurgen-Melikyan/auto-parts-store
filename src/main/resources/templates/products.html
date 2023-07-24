@@ -17,6 +17,9 @@
 <h1>Products</h1>
 <div class="header">
     <a href="/products/add">Create Product</a>
+
+    <a href="/orders">Order Page</a>
+
 </div>
 <table>
     <tr>
@@ -31,7 +34,8 @@
         <tr th:each="product : ${products.content}">
             <td>
                 <a th:href="@{'/products/' + ${product.id}}">
-                    <img th:if="${product.getImgName() != null}" th:src="@{/getImage(imageName=${product.getImgName()})}" width="55"/>
+                    <img th:if="${product.getImgName() != null}"
+                         th:src="@{/getImage(imageName=${product.getImgName()})}" width="55"/>
                 </a>
             </td>
             <td th:text="${product.price}"></td>
@@ -52,7 +56,8 @@
 </table>
 <div class="pagination">
     <div th:if="${products.totalPages > 0}" th:each="pageNumber : ${pageNumbers}">
-        <a th:href="@{/products(size=${products.size}, page=${pageNumber})}" th:text="${pageNumber}" th:class="${pageNumber == products.number + 1 ? 'active' : ''}"></a>
+        <a th:href="@{/products(size=${products.size}, page=${pageNumber})}" th:text="${pageNumber}"
+           th:class="${pageNumber == products.number + 1 ? 'active' : ''}"></a>
     </div>
 </div>
 </body>

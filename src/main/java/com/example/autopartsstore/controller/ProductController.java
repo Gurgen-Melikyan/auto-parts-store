@@ -2,9 +2,6 @@ package com.example.autopartsstore.controller;
 
 
 import com.example.autopartsstore.entity.*;
-import com.example.autopartsstore.repository.CartRepository;
-import com.example.autopartsstore.repository.CommentsRepository;
-import com.example.autopartsstore.repository.ProductRepository;
 import com.example.autopartsstore.security.CurrentUser;
 import com.example.autopartsstore.service.CartService;
 import com.example.autopartsstore.service.CategoryService;
@@ -22,7 +19,6 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -36,7 +32,7 @@ public class ProductController {
     private final ProductService productService;
     private final CommentService commentService;
     private final CartService cartService;
-    private final CartRepository cartRepository;
+
 
     @GetMapping()
     public String ProductsPage(@AuthenticationPrincipal CurrentUser currentUser,
@@ -79,7 +75,7 @@ public class ProductController {
 
     @GetMapping("/remove")
     public String removeProduct(@RequestParam("id") int id) {
-        productService.deleteById(id);
+            productService.deleteById(id);
         return "redirect:/products";
     }
 
@@ -99,18 +95,11 @@ public class ProductController {
         return "redirect:/products";
     }
 
-//    @GetMapping("/cart/add")
-//    public String addToCartPage(@RequestParam("id") int id, ModelMap modelMap) {
-//        Optional<Cart> byId = cartRepository.findById(id);
-//        Cart cart = byId.get();
-//        modelMap.addAttribute("cart", cart);
-//        return "productsInCart";
-//    }
 
     @PostMapping("/cart/add")
     public String addToCart(@RequestParam("prod") List<Integer> products
             , @AuthenticationPrincipal CurrentUser currentUser) {
-        cartService.addToCart(products,currentUser.getUser());
+        cartService.addToCart(products, currentUser.getUser());
         return "redirect:/products";
     }
 
